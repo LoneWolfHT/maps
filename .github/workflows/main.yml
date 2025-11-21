@@ -15,7 +15,9 @@ jobs:
           ignore: "maps/**/*"
       - name: Get a changed folder
         id: get_last_changed
-        run: value=$(echo $json_array | jq -r '.[-1]')
+        run: value=$(echo "${{ steps.get_changed.outputs.changed }}" | jq -r '.[-1]')
+      -name: test
+        run: "ls ${{ github.workspace }} && ls ${{ github.workspace }}/../"
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v5.0.0
         with:
