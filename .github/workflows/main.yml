@@ -1,0 +1,22 @@
+on:
+  pull_request:
+    branches:
+    - master
+jobs:
+  upload_map_folder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get-changed-folders
+        uses: Stockopedia/action-get-changed-files@v1.2
+        with:
+          foldersOnly: true
+          ignore: "**/*"
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v5.0.0
+        with:
+          name: ${{ GITHUB_BASE_REF }}
+          # A file, directory or wildcard pattern that describes what to upload
+          path: "${{ github.workspace }}/${{ steps.get_changed.outputs.changed }}"
+          retention-days: 60
+          overwrite: true
+          
