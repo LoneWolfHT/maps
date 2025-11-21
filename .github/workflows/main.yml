@@ -6,6 +6,8 @@ jobs:
   upload_map_folder:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4   
+
       - name: get-changed-folders
         id: get_changed
         uses: Stockopedia/action-get-changed-files@v1.2
@@ -15,7 +17,7 @@ jobs:
           ignore: "maps/**/*"
       - name: Get a changed folder
         id: get_last_changed
-        run: value=$(echo '${{ steps.get_changed.outputs.changed }}' | jq -r '.[-1]'); echo 'Value is ${value}';
+        run: value=$(echo '${{ steps.get_changed.outputs.changed }}' | jq -r '.[-1]'); echo 'Value is ${{ steps.get_last_changed.outputs.value }}';
       - name: test
         run: "ls -la ${{ github.workspace }}/"
       - name: Upload a Build Artifact
