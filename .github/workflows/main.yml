@@ -16,7 +16,7 @@ jobs:
       - name: Get a changed folder
         id: get_last_changed
         run: value=$(echo "${{ steps.get_changed.outputs.changed }}" | jq -r '.[-1]')
-      -name: test
+      - name: test
         run: "ls ${{ github.workspace }} && ls ${{ github.workspace }}/../"
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v5.0.0
