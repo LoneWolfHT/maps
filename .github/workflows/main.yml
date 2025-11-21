@@ -7,19 +7,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: get-changed-folders
+        id: get_changed
         uses: Stockopedia/action-get-changed-files@v1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           foldersOnly: true
           ignore: "maps/**/*"
       - name: Get a changed folder
-        run: last_value=$(echo $json_array | jq -r '.[-1]')
+        id: get_last_changed
+        run: value=$(echo $json_array | jq -r '.[-1]')
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v5.0.0
         with:
-          name: "${{ steps.get_changed.outputs.changed[$last_value] }}"
+          name: "${{ steps.get_changed.outputs.changed[steps.get_last_changed.outputs.value] }}"
           # A file, directory or wildcard pattern that describes what to upload
-          path: "${{ github.workspace }}/${{ steps.get_changed.outputs.changed[$last_value] }}/*"
+          path: "${{ github.workspace }}/${{ steps.get_changed.outputs.changed[steps.get_last_changed.outputs.value] }}/*"
           retention-days: 60
           overwrite: true
           
