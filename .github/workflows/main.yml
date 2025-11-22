@@ -17,7 +17,10 @@ jobs:
           ignore: "maps/**/*"
       - name: Get a changed folder
         id: get_last_changed
-        run: value=$(echo '${{ steps.get_changed.outputs.changed }}' | jq -r '.[-1]'); echo 'Value should be $(echo '${{ steps.get_changed.outputs.changed }}' | jq -r '.[-1]')'
+        run: |
+          value=$(echo '${{ steps.get_changed.outputs.changed }}' | jq -r '.[-1]')
+          echo $value
+          echo "value=$value" >> $GITHUB_OUTPUT
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v5.0.0
         with:
