@@ -22,6 +22,7 @@ jobs:
           echo $value
           echo "value=$value" >> $GITHUB_OUTPUT
       - name: Upload a Build Artifact
+        id: zip_upload
         uses: actions/upload-artifact@v5.0.0
         with:
           name: "${{ steps.get_last_changed.outputs.value }}"
@@ -29,4 +30,10 @@ jobs:
           path: "${{ github.workspace }}/${{ steps.get_last_changed.outputs.value }}/*"
           retention-days: 60
           overwrite: true
+      - name: PR Comment
+        uses: github-actions-up-and-running/pr-comment@v1.0.1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          message: "Map file zip (auto-generated): ${{ steps.zip_upload.outputs.artifact-url }}"
+          
           
