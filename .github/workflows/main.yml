@@ -24,9 +24,9 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v5.0.0
         with:
-          name: "${{ steps.get_changed.outputs.changed[steps.get_last_changed.outputs.value] }}"
+          name: "${{ steps.get_last_changed.outputs.value }}"
           # A file, directory or wildcard pattern that describes what to upload
-          path: "${{ github.workspace }}/${{ steps.get_changed.outputs.changed[steps.get_last_changed.outputs.value] }}/*"
+          path: "${{ github.workspace }}/${{ steps.get_last_changed.outputs.value }}/*"
           retention-days: 60
           overwrite: true
           
