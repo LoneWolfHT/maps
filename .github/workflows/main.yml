@@ -6,7 +6,7 @@ jobs:
   upload_map_folder:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4   
+      - uses: actions/checkout@v4
 
       - name: get-changed-folders
         id: get_changed
@@ -17,9 +17,7 @@ jobs:
           ignore: "maps/**/*"
       - name: Get a changed folder
         id: get_last_changed
-        run: value=$(echo '${{ steps.get_changed.outputs.changed }}' | jq -r '.[-1]'); echo 'Value is ${{ steps.get_last_changed.outputs.value }}';
-      - name: test
-        run: "ls -la ${{ github.workspace }}/"
+        run: value=$(echo '${{ steps.get_changed.outputs.changed }}' | jq -r '.[-1]'); echo 'Value should be $(echo '${{ steps.get_changed.outputs.changed }}' | jq -r '.[-1]')'
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v5.0.0
         with:
